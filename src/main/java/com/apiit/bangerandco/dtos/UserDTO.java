@@ -39,4 +39,12 @@ public class UserDTO {
     private String driversLicense;
     private List<BookingDTO> bookings;
     private List<UserContactDTO> userContacts;
+
+    private String jwtToken;
+
+    public UserDTO(String jwtToken,String firstName, String lastName){
+        this.jwtToken=jwtToken;
+        this.firstName=firstName;
+        this.lastName=lastName;
+    }
 }
