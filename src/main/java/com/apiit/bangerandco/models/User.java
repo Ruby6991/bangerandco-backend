@@ -37,6 +37,9 @@ public class User implements Serializable {
     private String address;
 
     @Column(nullable = false)
+    private int phoneNo;
+
+    @Column
     private String NIC;
 
     @Column(nullable = false)
@@ -54,13 +57,10 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private CustomerState customerState;
 
-    @Column(nullable = false)
+    @Column
     private String driversLicense;
 
     @OneToMany(mappedBy = "user")
     private List<Booking> bookings;
-
-    @OneToMany(mappedBy = "user")
-    private List<UserContact> userContacts;
 
 }
