@@ -46,6 +46,7 @@ public class ModelToDTO {
     public UserDTO userToDTO(User user){
         UserDTO userDTO = new UserDTO();
         userDTO.setAddress(user.getAddress());
+        userDTO.setPhoneNo(user.getPhoneNo());
 
         List<Booking> bookings = user.getBookings();
         List<BookingDTO> bookingDTOList = new ArrayList<>();

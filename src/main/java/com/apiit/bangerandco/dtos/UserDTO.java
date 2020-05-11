@@ -24,6 +24,7 @@ public class UserDTO {
     private String NIC;
     private String password;
     private Date dateOfBirth;
+    private int phoneNo;
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
