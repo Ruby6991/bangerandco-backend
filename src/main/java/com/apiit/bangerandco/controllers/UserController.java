@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
 public class UserController {
@@ -22,6 +24,11 @@ public class UserController {
     @PostMapping("/GetUser")
     public ResponseEntity<UserDTO> GetUserDetails(@RequestBody User user){
         return userService.getUser(user.getEmail());
+    }
+
+    @PostMapping("/GetUserList")
+    public ResponseEntity<List<UserDTO>> getUserList(){
+        return userService.getUserList();
     }
 
     @DeleteMapping("/DeleteUser/{id}")

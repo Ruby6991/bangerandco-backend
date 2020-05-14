@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -71,5 +73,14 @@ public class UserService {
             return new ResponseEntity<>(user,HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    public ResponseEntity<List<UserDTO>> getUserList() {
+        List<UserDTO> userDTOList = new ArrayList<>();
+        Iterable<User> userList = userRepo.findAll();
+        for(User user : userList){
+            userDTOList.add(modelToDTO.userToDTO(user));
+        }
+        return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
 }

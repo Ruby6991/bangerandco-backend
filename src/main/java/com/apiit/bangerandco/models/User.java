@@ -53,7 +53,7 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
-    @Column(nullable = false)
+    @Column
     @Enumerated(EnumType.STRING)
     private CustomerState customerState;
 
