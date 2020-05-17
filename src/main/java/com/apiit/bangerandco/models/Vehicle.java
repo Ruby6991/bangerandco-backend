@@ -41,7 +41,7 @@ public class Vehicle implements Serializable {
 
     private int mileage;
 
-    @Column(nullable = false)
+    @Column
     private Date serviceDate;
 
     @Column(nullable = false)
@@ -52,9 +52,8 @@ public class Vehicle implements Serializable {
 
     private String imgUrl;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "category_id",referencedColumnName = "id")
-    private Category category;
+    @Column(nullable = false)
+    private String category;
 
     @OneToMany(mappedBy = "vehicle")
     private List<Booking> bookings;

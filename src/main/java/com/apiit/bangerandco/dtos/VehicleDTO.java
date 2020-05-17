@@ -1,8 +1,6 @@
 package com.apiit.bangerandco.dtos;
 
 import com.apiit.bangerandco.enums.VehicleFuelType;
-import com.apiit.bangerandco.models.Booking;
-import com.apiit.bangerandco.models.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +29,6 @@ public class VehicleDTO {
     private boolean availability;
     private String licenseNo;
     private String imgUrl;
-    private CategoryDTO category;
+    private String category;
     private List<BookingDTO> bookings;
 }

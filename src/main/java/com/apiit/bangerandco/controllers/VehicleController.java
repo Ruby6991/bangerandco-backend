@@ -19,7 +19,7 @@ public class VehicleController {
     @Autowired
     VehicleService vehicleService;
 
-    @PostMapping("/AddVehicle")
+    @PutMapping("/AddVehicle")
     public ResponseEntity<Boolean> AddVehicle(@RequestBody Vehicle vehicle){
         return vehicleService.addVehicle(vehicle);
     }

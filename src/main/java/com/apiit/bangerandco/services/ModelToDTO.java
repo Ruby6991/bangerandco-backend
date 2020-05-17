@@ -79,7 +79,7 @@ public class ModelToDTO {
     public VehicleDTO vehicleToDTO(Vehicle vehicle){
         VehicleDTO vehicleDTO = new VehicleDTO();
         vehicleDTO.setAvailability(vehicle.isAvailability());
-        vehicleDTO.setCategory(categoryToDTO(vehicle.getCategory()));
+        vehicleDTO.setCategory(vehicle.getCategory());
         vehicleDTO.setDescription(vehicle.getDescription());
         vehicleDTO.setFuelType(vehicle.getFuelType());
         vehicleDTO.setId(vehicle.getId());
@@ -91,16 +91,6 @@ public class ModelToDTO {
         vehicleDTO.setRates(vehicle.getRates());
         vehicleDTO.setServiceDate(vehicle.getServiceDate());
         return vehicleDTO;
-    }
-
-    public CategoryDTO categoryToDTO(Category category){
-        CategoryDTO categoryDTO =new CategoryDTO();
-        categoryDTO.setCategory(category.getCategory());
-        categoryDTO.setDescription(category.getDescription());
-        categoryDTO.setId(category.getId());
-        categoryDTO.setNumOfBags(category.getNumOfBags());
-        categoryDTO.setNumOfPassengers(category.getNumOfPassengers());
-        return categoryDTO;
     }
 
 }
