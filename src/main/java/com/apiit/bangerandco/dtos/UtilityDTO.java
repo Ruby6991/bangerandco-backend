@@ -17,5 +17,6 @@ public class UtilityDTO {
     private int quantity;
     private double utilityRate;
     private boolean utilityAvailability;
+    private String utilityImg;
     private List<BookingDTO> bookings;
 }

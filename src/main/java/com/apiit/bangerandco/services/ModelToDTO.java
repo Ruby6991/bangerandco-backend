@@ -73,6 +73,7 @@ public class ModelToDTO {
         utilityDTO.setUtilityAvailability(utility.isUtilityAvailability());
         utilityDTO.setUtilityName(utility.getUtilityName());
         utilityDTO.setUtilityRate(utility.getUtilityRate());
+        utilityDTO.setUtilityImg(utility.getUtilityImg());
         return utilityDTO;
     }
 
