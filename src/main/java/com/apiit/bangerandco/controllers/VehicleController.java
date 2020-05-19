@@ -1,10 +1,7 @@
 package com.apiit.bangerandco.controllers;
 
-import com.apiit.bangerandco.dtos.UserDTO;
 import com.apiit.bangerandco.dtos.VehicleDTO;
-import com.apiit.bangerandco.models.User;
 import com.apiit.bangerandco.models.Vehicle;
-import com.apiit.bangerandco.services.UserService;
 import com.apiit.bangerandco.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

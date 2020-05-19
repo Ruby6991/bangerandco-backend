@@ -32,6 +32,8 @@ public class Utility implements Serializable {
     @Column(nullable = false)
     private double utilityRate;
 
+    private String utilityImg;
+
     @Column(nullable = false)
     private boolean utilityAvailability;
 
