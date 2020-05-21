@@ -40,4 +40,9 @@ public class UserController {
     public ResponseEntity<User> UpdateUser(@PathVariable String id, @RequestBody User user){
         return userService.updateUser(id,user);
     }
+
+    @PostMapping("/BlacklistUser/{id}")
+    public void BlacklistUser(@PathVariable String id){
+        userService.blacklistUser(id);
+    }
 }

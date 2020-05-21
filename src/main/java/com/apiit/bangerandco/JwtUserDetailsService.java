@@ -1,5 +1,6 @@
 package com.apiit.bangerandco;
 
+import com.apiit.bangerandco.enums.CustomerState;
 import com.apiit.bangerandco.models.User;
 import com.apiit.bangerandco.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

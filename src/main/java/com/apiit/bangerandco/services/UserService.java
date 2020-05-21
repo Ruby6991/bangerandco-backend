@@ -83,4 +83,29 @@ public class UserService {
         }
         return new ResponseEntity<>(userDTOList, HttpStatus.OK);
     }
+
+    public void blacklistUser(String id){
+
+        Optional<User> userOptional = userRepo.findById(id);
+//        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            user.setCustomerState(CustomerState.Blacklisted);
+            userRepo.save(user);
+//            return new ResponseEntity<>(user,HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+
+//        try{
+//            Optional<User> userOptional = userRepo.findById(id);
+//            if(userOptional.isPresent()){
+//                User user = userOptional.get();
+//                user.setCustomerState(CustomerState.Blacklisted);
+//                userRepo.save(user);
+//                return new ResponseEntity<>(true,HttpStatus.OK);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return new ResponseEntity<>(false, HttpStatus.OK);
+    }
 }

@@ -3,6 +3,7 @@ package com.apiit.bangerandco.controllers;
 import com.apiit.bangerandco.JwtUserDetailsService;
 import com.apiit.bangerandco.config.JwtTokenUtil;
 import com.apiit.bangerandco.dtos.UserDTO;
+import com.apiit.bangerandco.enums.CustomerState;
 import com.apiit.bangerandco.models.User;
 import com.apiit.bangerandco.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +50,15 @@ public class JwtAuthenticationController {
         if(userOptional.isPresent()){
             User user = userOptional.get();
 
-            UserDTO userDTO=new UserDTO(token,user.getFirstName(),user.getLastName());
+            if( user.getCustomerState()!= CustomerState.Blacklisted){
+                UserDTO userDTO=new UserDTO(token,user.getFirstName(),user.getLastName());
 
-            return ResponseEntity.ok(userDTO);
+                return ResponseEntity.ok(userDTO);
+            }else{
+                return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+            }
+
+
         }else{
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }

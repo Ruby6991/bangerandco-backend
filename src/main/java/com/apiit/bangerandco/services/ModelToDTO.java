@@ -21,7 +21,7 @@ public class ModelToDTO {
         bookingDTO.setPayment(paymentToDTO(booking.getPayment()));
         bookingDTO.setExtendedTime(booking.getExtendedTime());
         bookingDTO.setPickupDateTime(booking.getPickupDateTime());
-//        bookingDTO.setUser(userToDTO(booking.getUser()));
+        bookingDTO.setUser(userToDTO(booking.getUser()));
 
         List<Utility> utilities = booking.getUtilities();
         List<UtilityDTO> utilityDTOList = new ArrayList<>();
@@ -48,12 +48,12 @@ public class ModelToDTO {
         userDTO.setAddress(user.getAddress());
         userDTO.setPhoneNo(user.getPhoneNo());
 
-        List<Booking> bookings = user.getBookings();
-        List<BookingDTO> bookingDTOList = new ArrayList<>();
-        for(Booking booking: bookings){
-            bookingDTOList.add(bookingToDTO(booking));
-        }
-        userDTO.setBookings(bookingDTOList);
+//        List<Booking> bookings = user.getBookings();
+//        List<BookingDTO> bookingDTOList = new ArrayList<>();
+//        for(Booking booking: bookings){
+//            bookingDTOList.add(bookingToDTO(booking));
+//        }
+//        userDTO.setBookings(bookingDTOList);
 
         userDTO.setCustomerState(user.getCustomerState());
         userDTO.setDateOfBirth(user.getDateOfBirth());
