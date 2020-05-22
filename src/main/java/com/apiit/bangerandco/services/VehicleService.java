@@ -1,6 +1,7 @@
 package com.apiit.bangerandco.services;
 
 import com.apiit.bangerandco.dtos.VehicleDTO;
+import com.apiit.bangerandco.models.User;
 import com.apiit.bangerandco.models.Vehicle;
 import com.apiit.bangerandco.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,15 @@ public class VehicleService {
             return new ResponseEntity<>(true, HttpStatus.OK);
         }
         return new ResponseEntity<>(false,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    public ResponseEntity<VehicleDTO> getVehicle(int id){
+        Optional<Vehicle> vehicleOptional = vehicleRepo.findById(id);
+        if(vehicleOptional.isPresent()){
+            Vehicle vehicle = vehicleOptional.get();
+            return new ResponseEntity<>(modelToDTO.vehicleToDTO(vehicle), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
     public ResponseEntity<List<VehicleDTO>> getVehicleByModel(String model){

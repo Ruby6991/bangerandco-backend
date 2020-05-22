@@ -21,6 +21,11 @@ public class VehicleController {
         return vehicleService.addVehicle(vehicle);
     }
 
+    @GetMapping("/GetVehicle/{id}")
+    public ResponseEntity<VehicleDTO> getSize(@PathVariable int id){
+        return vehicleService.getVehicle(id);
+    }
+
     @PostMapping("/GetVehicleModel")
     public ResponseEntity<List<VehicleDTO>> GetVehicleByModel(@RequestBody Vehicle vehicle){
         return vehicleService.getVehicleByModel(vehicle.getModel());
