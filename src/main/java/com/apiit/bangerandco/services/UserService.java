@@ -75,6 +75,17 @@ public class UserService {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
+    public ResponseEntity<User> updateUserNIC(String id, User newUser){
+        Optional<User> userOptional = userRepo.findById(id);
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            user.setNIC(newUser.getNIC());
+            userRepo.save(user);
+            return new ResponseEntity<>(user,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
     public ResponseEntity<List<UserDTO>> getUserList() {
         List<UserDTO> userDTOList = new ArrayList<>();
         Iterable<User> userList = userRepo.findAll();
@@ -108,4 +119,5 @@ public class UserService {
 //        }
 //        return new ResponseEntity<>(false, HttpStatus.OK);
     }
+
 }

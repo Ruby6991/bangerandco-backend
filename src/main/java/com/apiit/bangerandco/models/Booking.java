@@ -1,6 +1,9 @@
 package com.apiit.bangerandco.models;
 
 import com.apiit.bangerandco.enums.BookingState;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "bookings")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@bookingId")
 public class Booking  implements Serializable {
 
     private static final long serialVersionUID=1L;
