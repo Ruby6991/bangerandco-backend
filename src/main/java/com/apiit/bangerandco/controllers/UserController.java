@@ -22,7 +22,7 @@ import java.util.List;
 @CrossOrigin("*")
 public class UserController {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+//    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     UserService userService;
@@ -62,22 +62,22 @@ public class UserController {
         userService.blacklistUser(id);
     }
 
-    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity uploadFile(@RequestParam MultipartFile file) {
-        logger.info(String.format("File name '%s' uploaded successfully.", file.getOriginalFilename()));
-        return ResponseEntity.ok().build();
-    }
-
-    @RequestMapping("/download")
-    public ResponseEntity downloadFile1(@RequestParam String fileName) throws IOException {
-
-        File file = new File(fileName);
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .contentLength(file.length())
-                .body(resource);
-    }
+//    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public ResponseEntity uploadFile(@RequestParam MultipartFile file) {
+//        logger.info(String.format("File name '%s' uploaded successfully.", file.getOriginalFilename()));
+//        return ResponseEntity.ok().build();
+//    }
+//
+//    @RequestMapping("/download")
+//    public ResponseEntity downloadFile1(@RequestParam String fileName) throws IOException {
+//
+//        File file = new File(fileName);
+//        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+//
+//        return ResponseEntity.ok()
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
+//                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+//                .contentLength(file.length())
+//                .body(resource);
+//    }
 }

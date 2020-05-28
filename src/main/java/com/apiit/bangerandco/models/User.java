@@ -68,4 +68,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private List<Booking> bookings;
 
+    @OneToMany(mappedBy = "user")
+    private List<Document> documents;
+
 }
