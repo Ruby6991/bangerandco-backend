@@ -10,7 +10,7 @@ public interface DocumentService {
 
     ResponseMetadata save(MultipartFile multipartFile, String UserId) throws IOException;
 
-    byte[] getDocumentFile(Long id);
+    byte[] getDocumentFile(String id);
 
     List<Document> findAll();
 }

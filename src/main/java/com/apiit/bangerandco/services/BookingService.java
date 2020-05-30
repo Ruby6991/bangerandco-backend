@@ -4,6 +4,7 @@ import com.apiit.bangerandco.dtos.BookingDTO;
 import com.apiit.bangerandco.enums.BookingState;
 import com.apiit.bangerandco.models.Booking;
 import com.apiit.bangerandco.repositories.BookingRepository;
+import com.apiit.bangerandco.repositories.UtilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,9 @@ public class BookingService {
 
     @Autowired
     BookingRepository bookingRepo;
+
+    @Autowired
+    UtilityRepository utilityRepo;
 
     @Autowired
     ModelToDTO modelToDTO;
