@@ -2,12 +2,7 @@ package com.apiit.bangerandco.services;
 
 import com.apiit.bangerandco.dtos.BookingDTO;
 import com.apiit.bangerandco.enums.BookingState;
-import com.apiit.bangerandco.enums.CustomerState;
-import com.apiit.bangerandco.enums.PaymentType;
-import com.apiit.bangerandco.enums.UserType;
 import com.apiit.bangerandco.models.Booking;
-import com.apiit.bangerandco.models.Payment;
-import com.apiit.bangerandco.models.User;
 import com.apiit.bangerandco.repositories.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

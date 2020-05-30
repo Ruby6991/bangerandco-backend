@@ -18,7 +18,7 @@ public class ModelToDTO {
         bookingDTO.setDropDateTime(booking.getDropDateTime());
         bookingDTO.setExtendedState(booking.isExtendedState());
         bookingDTO.setLateState(booking.isLateState());
-        bookingDTO.setPayment(paymentToDTO(booking.getPayment()));
+        bookingDTO.setTotalAmount(booking.getTotalAmount());
         bookingDTO.setExtendedTime(booking.getExtendedTime());
         bookingDTO.setPickupDateTime(booking.getPickupDateTime());
         bookingDTO.setUser(userToDTO(booking.getUser()));
@@ -32,15 +32,6 @@ public class ModelToDTO {
 
         bookingDTO.setVehicle(vehicleToDTO(booking.getVehicle()));
         return bookingDTO;
-    }
-
-    public PaymentDTO paymentToDTO(Payment payment){
-        PaymentDTO paymentDTO = new PaymentDTO();
-        paymentDTO.setId(payment.getId());
-        paymentDTO.setPaid(payment.isPaid());
-        paymentDTO.setPaymentType(payment.getPaymentType());
-        paymentDTO.setTotalAmount(payment.getTotalAmount());
-        return paymentDTO;
     }
 
     public UserDTO userToDTO(User user){

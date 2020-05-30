@@ -35,7 +35,7 @@ public class BookingDTO {
     @Temporal(TemporalType.TIMESTAMP)
     private Date bookedTime;
 
-    private PaymentDTO payment;
+    private double totalAmount;
     private List<UtilityDTO> utilities;
     private VehicleDTO vehicle;
     private UserDTO user;

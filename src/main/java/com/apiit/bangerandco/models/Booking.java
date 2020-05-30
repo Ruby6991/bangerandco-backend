@@ -47,8 +47,8 @@ public class Booking  implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date bookedTime;
 
-    @OneToOne(mappedBy = "booking")
-    private Payment payment;
+    @Column(nullable = false)
+    private double totalAmount;
 
     @ManyToMany
     @JoinTable(

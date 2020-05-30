@@ -1,5 +1,6 @@
 package com.apiit.bangerandco.controllers;
 
+import com.apiit.bangerandco.dtos.BookingDTO;
 import com.apiit.bangerandco.dtos.UserDTO;
 import com.apiit.bangerandco.models.User;
 import com.apiit.bangerandco.services.UserService;
@@ -37,6 +38,11 @@ public class UserController {
         return userService.getUser(user.getEmail());
     }
 
+    @PostMapping("/GetUserBookings")
+    public ResponseEntity<List<BookingDTO>> getUserBookings(@RequestBody User user){
+        return userService.getUserBookingList(user.getEmail());
+    }
+
     @PostMapping("/GetUserList")
     public ResponseEntity<List<UserDTO>> getUserList(){
         return userService.getUserList();
@@ -62,22 +68,4 @@ public class UserController {
         userService.blacklistUser(id);
     }
 
-//    @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public ResponseEntity uploadFile(@RequestParam MultipartFile file) {
-//        logger.info(String.format("File name '%s' uploaded successfully.", file.getOriginalFilename()));
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @RequestMapping("/download")
-//    public ResponseEntity downloadFile1(@RequestParam String fileName) throws IOException {
-//
-//        File file = new File(fileName);
-//        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-//
-//        return ResponseEntity.ok()
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
-//                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-//                .contentLength(file.length())
-//                .body(resource);
-//    }
 }

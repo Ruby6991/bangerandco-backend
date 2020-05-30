@@ -1,8 +1,10 @@
 package com.apiit.bangerandco.services;
 
+import com.apiit.bangerandco.dtos.BookingDTO;
 import com.apiit.bangerandco.dtos.UserDTO;
 import com.apiit.bangerandco.enums.CustomerState;
 import com.apiit.bangerandco.enums.UserType;
+import com.apiit.bangerandco.models.Booking;
 import com.apiit.bangerandco.models.User;
 import com.apiit.bangerandco.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,20 @@ public class UserService {
         if(userOptional.isPresent()){
             User user = userOptional.get();
             return new ResponseEntity<>(modelToDTO.userToDTO(user), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    public ResponseEntity<List<BookingDTO>> getUserBookingList(String id) {
+        List<BookingDTO> userBookingDTOs = new ArrayList<>();
+        Optional<User> userOptional = userRepo.findById(id);
+        User user = userOptional.get();
+        List<Booking> userBookings = user.getBookings();
+        if(!userBookings.isEmpty()){
+            for(Booking booking : userBookings){
+                userBookingDTOs.add(modelToDTO.bookingToDTO(booking));
+            }
+            return new ResponseEntity<>(userBookingDTOs, HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
