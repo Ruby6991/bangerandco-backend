@@ -10,6 +10,7 @@ import com.apiit.bangerandco.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -75,7 +76,7 @@ public class UserService {
         return new ResponseEntity<>(false, HttpStatus.OK);
     }
 
-    public ResponseEntity<User> updateUser(String id, User newUser){
+    public ResponseEntity<UserDTO> updateUser(String id, User newUser){
         Optional<User> userOptional = userRepo.findById(id);
         if(userOptional.isPresent()){
             User user = userOptional.get();
@@ -86,18 +87,31 @@ public class UserService {
             user.setPhoneNo(newUser.getPhoneNo());
             user.setDateOfBirth(newUser.getDateOfBirth());
             userRepo.save(user);
-            return new ResponseEntity<>(user,HttpStatus.OK);
+            return new ResponseEntity<>(modelToDTO.userToDTO(user),HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<User> updateUserNIC(String id, User newUser){
+    public ResponseEntity<UserDTO> updatePassword(String id, String currentPsw, String newPsw){
+        Optional<User> userOptional = userRepo.findById(id);
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            if(bcryptEncoder.matches(currentPsw, user.getPassword())) {
+                user.setPassword(bcryptEncoder.encode(newPsw));
+                userRepo.save(user);
+                return new ResponseEntity<>(modelToDTO.userToDTO(user), HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    public ResponseEntity<UserDTO> updateUserNIC(String id, User newUser){
         Optional<User> userOptional = userRepo.findById(id);
         if(userOptional.isPresent()){
             User user = userOptional.get();
             user.setNIC(newUser.getNIC());
             userRepo.save(user);
-            return new ResponseEntity<>(user,HttpStatus.OK);
+            return new ResponseEntity<>(modelToDTO.userToDTO(user),HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }

@@ -54,12 +54,17 @@ public class UserController {
     }
 
     @PutMapping("/UpdateUser/{id}")
-    public ResponseEntity<User> UpdateUser(@PathVariable String id, @RequestBody User user){
+    public ResponseEntity<UserDTO> UpdateUser(@PathVariable String id, @RequestBody User user){
         return userService.updateUser(id,user);
     }
 
+    @PutMapping("/UpdatePassword/{id}")
+    public ResponseEntity<UserDTO> UpdatePassword(@PathVariable String id, @RequestParam(value="currentPsw") String currentPsw, @RequestParam(value="newPsw") String newPsw){
+        return userService.updatePassword(id, currentPsw ,newPsw);
+    }
+
     @PutMapping("/UpdateUserNIC/{id}")
-    public ResponseEntity<User> UpdateUserNIC(@PathVariable String id, @RequestBody User user){
+    public ResponseEntity<UserDTO> UpdateUserNIC(@PathVariable String id, @RequestBody User user){
         return userService.updateUserNIC(id,user);
     }
 

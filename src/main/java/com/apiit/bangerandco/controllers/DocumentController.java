@@ -31,6 +31,12 @@ public class DocumentController {
         return documentService.save(file, userId);
     }
 
+    @RequestMapping(value = "/updateFile", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseMetadata handleFileUpdate(@RequestParam(value="file") MultipartFile file, @RequestParam(value="userId") String userId) throws IOException {
+        return documentService.updateFile(file, userId);
+    }
+
     @RequestMapping(value = "/getDocument/{id}", method = RequestMethod.GET)
     public HttpEntity getDocument(@PathVariable String id) {
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -40,7 +46,7 @@ public class DocumentController {
 
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody
-    List getDocument() {
+    List getDocuments() {
         return documentService.findAll();
     }
 

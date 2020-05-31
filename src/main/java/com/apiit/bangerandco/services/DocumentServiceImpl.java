@@ -1,5 +1,6 @@
 package com.apiit.bangerandco.services;
 
+import com.apiit.bangerandco.models.Booking;
 import com.apiit.bangerandco.models.Document;
 import com.apiit.bangerandco.models.User;
 import com.apiit.bangerandco.repositories.DocumentRepository;
@@ -36,17 +37,6 @@ public class DocumentServiceImpl implements DocumentService {
 
         Document doc = new Document();
         ResponseMetadata metadata = new ResponseMetadata();
-        Iterable<Document> docs = documentRepo.findAll();
-        for(Document document : docs){
-            if(document.getUser().getEmail() == userId) {
-                document.setDocName(file.getOriginalFilename());
-                document.setFile(file.getBytes());
-                documentRepo.save(document);
-                metadata.setMessage("success");
-                metadata.setStatus(200);
-            }
-            return metadata;
-        }
 
         doc.setDocName(file.getOriginalFilename());
         doc.setFile(file.getBytes());
@@ -55,6 +45,22 @@ public class DocumentServiceImpl implements DocumentService {
         documentRepo.save(doc);
         metadata.setMessage("success");
         metadata.setStatus(200);
+        return metadata;
+    }
+
+    public ResponseMetadata updateFile(MultipartFile file, String userId) throws IOException{
+        ResponseMetadata metadata = new ResponseMetadata();
+        Iterable<Document> docs = documentRepo.findAll();
+        for(Document document : docs){
+            if(document.getUser().getEmail().equals(userId)) {
+                Document updatedDoc = document;
+                updatedDoc.setDocName(file.getOriginalFilename());
+                updatedDoc.setFile(file.getBytes());
+                documentRepo.save(updatedDoc);
+                metadata.setMessage("success");
+                metadata.setStatus(200);
+            }
+        }
         return metadata;
     }
 
