@@ -67,7 +67,9 @@ public class UtilityService {
         List<UtilityDTO> utilityDTOList = new ArrayList<>();
         Iterable<Utility> utilityList = utilityRepo.findAll();
         for(Utility utility : utilityList){
-            utilityDTOList.add(modelToDTO.utilityToDTO(utility));
+            if(utility.isUtilityAvailability()){
+                utilityDTOList.add(modelToDTO.utilityToDTO(utility));
+            }
         }
         return new ResponseEntity<>(utilityDTOList, HttpStatus.OK);
     }

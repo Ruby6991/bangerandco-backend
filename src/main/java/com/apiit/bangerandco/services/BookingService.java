@@ -3,8 +3,11 @@ package com.apiit.bangerandco.services;
 import com.apiit.bangerandco.dtos.BookingDTO;
 import com.apiit.bangerandco.enums.BookingState;
 import com.apiit.bangerandco.models.Booking;
+import com.apiit.bangerandco.models.Utility;
+import com.apiit.bangerandco.models.Vehicle;
 import com.apiit.bangerandco.repositories.BookingRepository;
 import com.apiit.bangerandco.repositories.UtilityRepository;
+import com.apiit.bangerandco.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +28,39 @@ public class BookingService {
     UtilityRepository utilityRepo;
 
     @Autowired
+    VehicleRepository vehicleRepo;
+
+    @Autowired
     ModelToDTO modelToDTO;
 
     public ResponseEntity<Boolean> createBooking(Booking newBooking){
+
+        //add the date verification when deciding the availability
+        //find a way to disable the dates of bookings that has been made
+
+        Optional<Vehicle> vehicleOptional = vehicleRepo.findById(newBooking.getVehicle().getId());
+        if(vehicleOptional.isPresent()){
+            Vehicle vehicle = vehicleOptional.get();
+            int newQuantity = vehicle.getQuantity()-1;
+            vehicle.setQuantity(newQuantity);
+            if(newQuantity==0) {
+                vehicle.setAvailability(false);
+            }
+            vehicleRepo.save(vehicle);
+        }
+
+        List<Utility> utilities = newBooking.getUtilities();
+        for(Utility utility: utilities){
+            Optional<Utility> utilityOptional = utilityRepo.findById(utility.getId());
+            Utility util = utilityOptional.get();
+            int newQuantity = util.getQuantity()-1;
+            util.setQuantity(newQuantity);
+            if(newQuantity==0) {
+                util.setUtilityAvailability(false);
+            }
+            utilityRepo.save(util);
+        }
+
         newBooking.setBookedTime(new Date());
         newBooking.setBookingState(BookingState.Pending);
         newBooking = bookingRepo.save(newBooking);
