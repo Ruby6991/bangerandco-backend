@@ -82,7 +82,7 @@ public class BookingService {
         Optional<Booking> bookingOptional = bookingRepo.findById(id);
         if(bookingOptional.isPresent()){
             Booking booking = bookingOptional.get();
-            booking.setLateState(true);
+            booking.setLateState(newBooking.isLateState());
             bookingRepo.save(booking);
             return new ResponseEntity<>(booking,HttpStatus.OK);
         }
@@ -94,6 +94,7 @@ public class BookingService {
         if(bookingOptional.isPresent()){
             Booking booking = bookingOptional.get();
             booking.setUtilities(newBooking.getUtilities());
+            booking.setTotalAmount(newBooking.getTotalAmount());
             bookingRepo.save(booking);
             return new ResponseEntity<>(booking,HttpStatus.OK);
         }

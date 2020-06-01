@@ -22,7 +22,7 @@ public class VehicleController {
     }
 
     @GetMapping("/GetVehicle/{id}")
-    public ResponseEntity<VehicleDTO> getSize(@PathVariable int id){
+    public ResponseEntity<VehicleDTO> getVehicleByID(@PathVariable int id){
         return vehicleService.getVehicle(id);
     }
 

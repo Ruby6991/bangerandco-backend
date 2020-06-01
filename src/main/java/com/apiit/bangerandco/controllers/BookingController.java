@@ -21,9 +21,9 @@ public class BookingController {
         return bookingService.createBooking(booking);
     }
 
-    @PostMapping("/GetBooking")
-    public ResponseEntity<BookingDTO> GetBooking(@RequestBody Booking booking){
-        return bookingService.getBooking(booking.getId());
+    @GetMapping("/GetBooking/{id}")
+    public ResponseEntity<BookingDTO> GetBooking(@PathVariable int id){
+        return bookingService.getBooking(id);
     }
 
     @PostMapping("/GetBookingList")
@@ -39,6 +39,16 @@ public class BookingController {
     @PutMapping("/updateBookingState/{id}")
     public ResponseEntity<Booking> UpdateBookingState(@PathVariable int id, @RequestBody Booking booking) {
         return bookingService.updateBookingState(id, booking);
+    }
+
+    @PutMapping("/updateLateReturn/{id}")
+    public ResponseEntity<Booking> UpdateLateReturn(@PathVariable int id, @RequestBody Booking booking) {
+        return bookingService.updateLateReturn(id,booking);
+    }
+
+    @PutMapping("/addNewUtils/{id}")
+    public ResponseEntity<Booking> AddNewUtils(@PathVariable int id, @RequestBody Booking booking) {
+        return bookingService.addNewUtilities(id, booking);
     }
 
 }
