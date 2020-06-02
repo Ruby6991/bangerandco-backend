@@ -19,7 +19,6 @@ public class VehicleDTO {
     private String model;
     private double rates;
     private String description;
-    private int quantity;
 
     @Enumerated(EnumType.STRING)
     private VehicleFuelType fuelType;

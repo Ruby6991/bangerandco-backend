@@ -1,5 +1,6 @@
 package com.apiit.bangerandco.controllers;
 
+import com.apiit.bangerandco.dtos.BookingDTO;
 import com.apiit.bangerandco.dtos.VehicleDTO;
 import com.apiit.bangerandco.models.Vehicle;
 import com.apiit.bangerandco.services.VehicleService;
@@ -24,6 +25,11 @@ public class VehicleController {
     @GetMapping("/GetVehicle/{id}")
     public ResponseEntity<VehicleDTO> getVehicleByID(@PathVariable int id){
         return vehicleService.getVehicle(id);
+    }
+
+    @GetMapping("/GetVehicleBookings/{id}")
+    public ResponseEntity<List<BookingDTO>> getVehicleBookings(@PathVariable int id){
+        return vehicleService.getVehicleBookings(id);
     }
 
     @PostMapping("/GetVehicleModel")

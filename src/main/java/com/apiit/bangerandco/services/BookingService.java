@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,15 +36,29 @@ public class BookingService {
 
     public ResponseEntity<Boolean> createBooking(Booking newBooking){
 
-        //add the date verification when deciding the availability
-        //find a way to disable the dates of bookings that has been made
-
+        List<LocalDate> totalDates = new ArrayList<>();
         Optional<Vehicle> vehicleOptional = vehicleRepo.findById(newBooking.getVehicle().getId());
         if(vehicleOptional.isPresent()){
             Vehicle vehicle = vehicleOptional.get();
-            int newQuantity = vehicle.getQuantity()-1;
-            vehicle.setQuantity(newQuantity);
-            if(newQuantity==0) {
+            //no point maintaining quantity column
+
+            Iterable<Booking> bookings = bookingRepo.findAll();
+            for(Booking booking : bookings){
+                Date startDate = booking.getPickupDateTime();
+                Date endDate  = booking.getDropDateTime();
+
+                String s = startDate.toString().split(" ")[0];
+                String e = endDate.toString().split(" ")[0];
+                LocalDate start = LocalDate.parse(s);
+                LocalDate end = LocalDate.parse(e);
+                while (!start.isAfter(end)) {
+                    if(!totalDates.contains(start)){
+                        totalDates.add(start);
+                    }
+                    start = start.plusDays(1);
+                }
+            }
+            if(totalDates.size()>28){
                 vehicle.setAvailability(false);
             }
             vehicleRepo.save(vehicle);
@@ -138,8 +153,8 @@ public class BookingService {
         Optional<Booking> bookingOptional = bookingRepo.findById(id);
         if(bookingOptional.isPresent()){
             Booking booking = bookingOptional.get();
-            booking.setExtendedState(true);
-            booking.setExtendedTime(newBooking.getExtendedTime());
+            booking.setExtendedState(newBooking.isExtendedState());
+            booking.setExtendedTime(new Date());
             bookingRepo.save(booking);
             return new ResponseEntity<>(booking,HttpStatus.OK);
         }

@@ -46,6 +46,11 @@ public class BookingController {
         return bookingService.updateLateReturn(id,booking);
     }
 
+    @PutMapping("/extendBooking/{id}")
+    public ResponseEntity<Booking> ExtendBooking(@PathVariable int id, @RequestBody Booking booking) {
+        return bookingService.extendBooking(id,booking);
+    }
+
     @PutMapping("/addNewUtils/{id}")
     public ResponseEntity<Booking> AddNewUtils(@PathVariable int id, @RequestBody Booking booking) {
         return bookingService.addNewUtilities(id, booking);

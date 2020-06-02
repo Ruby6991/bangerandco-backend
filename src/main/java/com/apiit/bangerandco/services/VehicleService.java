@@ -1,8 +1,10 @@
 package com.apiit.bangerandco.services;
 
+import com.apiit.bangerandco.dtos.BookingDTO;
 import com.apiit.bangerandco.dtos.VehicleDTO;
-import com.apiit.bangerandco.models.User;
+import com.apiit.bangerandco.models.Booking;
 import com.apiit.bangerandco.models.Vehicle;
+import com.apiit.bangerandco.repositories.BookingRepository;
 import com.apiit.bangerandco.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,9 @@ public class VehicleService {
 
     @Autowired
     VehicleRepository vehicleRepo;
+
+    @Autowired
+    BookingRepository bookingRepo;
 
     @Autowired
     ModelToDTO modelToDTO;
@@ -77,7 +82,6 @@ public class VehicleService {
             vehicle.setDescription(newVehicle.getDescription());
             vehicle.setImgUrl(newVehicle.getImgUrl());
             vehicle.setMileage(newVehicle.getMileage());
-            vehicle.setQuantity(newVehicle.getQuantity());
             vehicle.setRates(newVehicle.getRates());
             vehicle.setServiceDate(newVehicle.getServiceDate());
             vehicleRepo.save(vehicle);
@@ -93,5 +97,16 @@ public class VehicleService {
             vehicleDTOList.add(modelToDTO.vehicleToDTO(vehicle));
         }
         return new ResponseEntity<>(vehicleDTOList, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<BookingDTO>> getVehicleBookings(int id) {
+        List<BookingDTO> bookingDTOList = new ArrayList<>();
+        Iterable<Booking> bookings = bookingRepo.findAll();
+        for(Booking booking : bookings){
+            if(booking.getVehicle().getId()==id) {
+                bookingDTOList.add(modelToDTO.bookingToDTO(booking));
+            }
+        }
+        return new ResponseEntity<>(bookingDTOList, HttpStatus.OK);
     }
 }

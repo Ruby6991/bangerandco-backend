@@ -38,9 +38,6 @@ public class Vehicle implements Serializable {
 
     private String description;
 
-    @Column(nullable = false)
-    private int quantity;
-
     @Enumerated(EnumType.STRING)
     private VehicleFuelType fuelType;
 

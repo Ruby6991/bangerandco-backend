@@ -79,7 +79,6 @@ public class ModelToDTO {
         vehicleDTO.setLicenseNo(vehicle.getLicenseNo());
         vehicleDTO.setMileage(vehicle.getMileage());
         vehicleDTO.setModel(vehicle.getModel());
-        vehicleDTO.setQuantity(vehicle.getQuantity());
         vehicleDTO.setRates(vehicle.getRates());
         vehicleDTO.setServiceDate(vehicle.getServiceDate());
         return vehicleDTO;
