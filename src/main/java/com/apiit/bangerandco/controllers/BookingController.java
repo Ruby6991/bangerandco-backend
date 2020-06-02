@@ -37,22 +37,22 @@ public class BookingController {
     }
 
     @PutMapping("/updateBookingState/{id}")
-    public ResponseEntity<Booking> UpdateBookingState(@PathVariable int id, @RequestBody Booking booking) {
+    public ResponseEntity<BookingDTO> UpdateBookingState(@PathVariable int id, @RequestBody Booking booking) {
         return bookingService.updateBookingState(id, booking);
     }
 
     @PutMapping("/updateLateReturn/{id}")
-    public ResponseEntity<Booking> UpdateLateReturn(@PathVariable int id, @RequestBody Booking booking) {
+    public ResponseEntity<BookingDTO> UpdateLateReturn(@PathVariable int id, @RequestBody Booking booking) {
         return bookingService.updateLateReturn(id,booking);
     }
 
     @PutMapping("/extendBooking/{id}")
-    public ResponseEntity<Booking> ExtendBooking(@PathVariable int id, @RequestBody Booking booking) {
+    public ResponseEntity<BookingDTO> ExtendBooking(@PathVariable int id, @RequestBody Booking booking) {
         return bookingService.extendBooking(id,booking);
     }
 
     @PutMapping("/addNewUtils/{id}")
-    public ResponseEntity<Booking> AddNewUtils(@PathVariable int id, @RequestBody Booking booking) {
+    public ResponseEntity<BookingDTO> AddNewUtils(@PathVariable int id, @RequestBody Booking booking) {
         return bookingService.addNewUtilities(id, booking);
     }
 

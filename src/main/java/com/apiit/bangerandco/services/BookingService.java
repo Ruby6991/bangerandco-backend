@@ -40,22 +40,23 @@ public class BookingService {
         Optional<Vehicle> vehicleOptional = vehicleRepo.findById(newBooking.getVehicle().getId());
         if(vehicleOptional.isPresent()){
             Vehicle vehicle = vehicleOptional.get();
-            //no point maintaining quantity column
 
             Iterable<Booking> bookings = bookingRepo.findAll();
             for(Booking booking : bookings){
-                Date startDate = booking.getPickupDateTime();
-                Date endDate  = booking.getDropDateTime();
+                if(booking.getBookingState()==BookingState.Pending || booking.getBookingState()==BookingState.PickedUp) {
+                    Date startDate = booking.getPickupDateTime();
+                    Date endDate = booking.getDropDateTime();
 
-                String s = startDate.toString().split(" ")[0];
-                String e = endDate.toString().split(" ")[0];
-                LocalDate start = LocalDate.parse(s);
-                LocalDate end = LocalDate.parse(e);
-                while (!start.isAfter(end)) {
-                    if(!totalDates.contains(start)){
-                        totalDates.add(start);
+                    String s = startDate.toString().split(" ")[0];
+                    String e = endDate.toString().split(" ")[0];
+                    LocalDate start = LocalDate.parse(s);
+                    LocalDate end = LocalDate.parse(e);
+                    while (!start.isAfter(end)) {
+                        if (!totalDates.contains(start)) {
+                            totalDates.add(start);
+                        }
+                        start = start.plusDays(1);
                     }
-                    start = start.plusDays(1);
                 }
             }
             if(totalDates.size()>28){
@@ -104,59 +105,57 @@ public class BookingService {
         return new ResponseEntity<>(false, HttpStatus.OK);
     }
 
-    public ResponseEntity<Booking> cancelBooking(int id, Booking newBooking){
-        Optional<Booking> bookingOptional = bookingRepo.findById(id);
-        if(bookingOptional.isPresent()){
-            Booking booking = bookingOptional.get();
-            booking.setBookingState(BookingState.Cancelled);
-            bookingRepo.save(booking);
-            return new ResponseEntity<>(booking,HttpStatus.OK);
+    public ResponseEntity<BookingDTO> updateBookingState(int id, Booking newBooking){
+        if(newBooking.getBookingState()==BookingState.Cancelled){
+            Booking booking = bookingRepo.findById(id).get();
+            Optional<Vehicle> vehicleOptional = vehicleRepo.findById(booking.getVehicle().getId());
+            if(vehicleOptional.isPresent()) {
+                Vehicle vehicle = vehicleOptional.get();
+                vehicle.setAvailability(true);
+                vehicleRepo.save(vehicle);
+            }
         }
-        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-    }
-
-    public ResponseEntity<Booking> updateBookingState(int id, Booking newBooking){
         Optional<Booking> bookingOptional = bookingRepo.findById(id);
         if(bookingOptional.isPresent()){
             Booking booking = bookingOptional.get();
             booking.setBookingState(newBooking.getBookingState());
             bookingRepo.save(booking);
-            return new ResponseEntity<>(booking,HttpStatus.OK);
+            return new ResponseEntity<>(modelToDTO.bookingToDTO(booking),HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<Booking> updateLateReturn(int id, Booking newBooking){
+    public ResponseEntity<BookingDTO> updateLateReturn(int id, Booking newBooking){
         Optional<Booking> bookingOptional = bookingRepo.findById(id);
         if(bookingOptional.isPresent()){
             Booking booking = bookingOptional.get();
             booking.setLateState(newBooking.isLateState());
             bookingRepo.save(booking);
-            return new ResponseEntity<>(booking,HttpStatus.OK);
+            return new ResponseEntity<>(modelToDTO.bookingToDTO(booking),HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<Booking> addNewUtilities(int id, Booking newBooking){
+    public ResponseEntity<BookingDTO> addNewUtilities(int id, Booking newBooking){
         Optional<Booking> bookingOptional = bookingRepo.findById(id);
         if(bookingOptional.isPresent()){
             Booking booking = bookingOptional.get();
             booking.setUtilities(newBooking.getUtilities());
             booking.setTotalAmount(newBooking.getTotalAmount());
             bookingRepo.save(booking);
-            return new ResponseEntity<>(booking,HttpStatus.OK);
+            return new ResponseEntity<>(modelToDTO.bookingToDTO(booking),HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<Booking> extendBooking(int id, Booking newBooking){
+    public ResponseEntity<BookingDTO> extendBooking(int id, Booking newBooking){
         Optional<Booking> bookingOptional = bookingRepo.findById(id);
         if(bookingOptional.isPresent()){
             Booking booking = bookingOptional.get();
             booking.setExtendedState(newBooking.isExtendedState());
             booking.setExtendedTime(new Date());
             bookingRepo.save(booking);
-            return new ResponseEntity<>(booking,HttpStatus.OK);
+            return new ResponseEntity<>(modelToDTO.bookingToDTO(booking),HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
