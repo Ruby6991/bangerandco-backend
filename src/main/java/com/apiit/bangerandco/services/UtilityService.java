@@ -2,6 +2,7 @@ package com.apiit.bangerandco.services;
 
 import com.apiit.bangerandco.dtos.UtilityDTO;
 import com.apiit.bangerandco.models.Utility;
+import com.apiit.bangerandco.models.Vehicle;
 import com.apiit.bangerandco.repositories.UtilityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,15 @@ public class UtilityService {
             return new ResponseEntity<>(true, HttpStatus.OK);
         }
         return new ResponseEntity<>(false,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    public ResponseEntity<UtilityDTO> getUtilityById(int id){
+        Optional<Utility> utilityOptional = utilityRepo.findById(id);
+        if(utilityOptional.isPresent()){
+            Utility utility = utilityOptional.get();
+            return new ResponseEntity<>(modelToDTO.utilityToDTO(utility), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
     public ResponseEntity<UtilityDTO> getUtilityByTitle(String title){

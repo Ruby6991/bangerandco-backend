@@ -106,13 +106,27 @@ public class BookingService {
     }
 
     public ResponseEntity<BookingDTO> updateBookingState(int id, Booking newBooking){
-        if(newBooking.getBookingState()==BookingState.Cancelled){
+        if(newBooking.getBookingState()==BookingState.Cancelled || newBooking.getBookingState()==BookingState.DroppedOff){
             Booking booking = bookingRepo.findById(id).get();
             Optional<Vehicle> vehicleOptional = vehicleRepo.findById(booking.getVehicle().getId());
             if(vehicleOptional.isPresent()) {
                 Vehicle vehicle = vehicleOptional.get();
                 vehicle.setAvailability(true);
                 vehicleRepo.save(vehicle);
+            }
+
+            List<Utility> utilities = newBooking.getUtilities();
+            if(utilities!=null) {
+                for (Utility utility : utilities) {
+                    Optional<Utility> utilityOptional = utilityRepo.findById(utility.getId());
+                    if (vehicleOptional.isPresent()) {
+                        Utility util = utilityOptional.get();
+                        int newQuantity = util.getQuantity() + 1;
+                        util.setQuantity(newQuantity);
+                        util.setUtilityAvailability(true);
+                        utilityRepo.save(util);
+                    }
+                }
             }
         }
         Optional<Booking> bookingOptional = bookingRepo.findById(id);

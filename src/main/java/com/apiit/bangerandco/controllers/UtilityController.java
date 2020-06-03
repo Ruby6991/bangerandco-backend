@@ -1,6 +1,7 @@
 package com.apiit.bangerandco.controllers;
 
 import com.apiit.bangerandco.dtos.UtilityDTO;
+import com.apiit.bangerandco.dtos.VehicleDTO;
 import com.apiit.bangerandco.models.Utility;
 import com.apiit.bangerandco.services.UtilityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,11 @@ public class UtilityController {
     @PutMapping("/AddUtility")
     public ResponseEntity<Boolean> AddUtility(@RequestBody Utility utility){
         return utilityService.addUtility(utility);
+    }
+
+    @GetMapping("/GetUtility/{id}")
+    public ResponseEntity<UtilityDTO> getUtilityByID(@PathVariable int id){
+        return utilityService.getUtilityById(id);
     }
 
     @PostMapping("/GetUtilityTitle")

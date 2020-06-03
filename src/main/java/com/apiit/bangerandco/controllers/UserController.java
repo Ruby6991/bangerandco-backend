@@ -68,9 +68,9 @@ public class UserController {
         return userService.updateUserNIC(id,user);
     }
 
-    @PostMapping("/BlacklistUser/{id}")
-    public void BlacklistUser(@PathVariable String id){
-        userService.blacklistUser(id);
+    @PutMapping("/UpdateUserState/{id}")
+    public ResponseEntity<UserDTO> UpdateUserState(@PathVariable String id, @RequestBody User user){
+        return userService.updateUserState(id,user);
     }
 
 }
