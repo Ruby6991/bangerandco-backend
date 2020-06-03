@@ -115,11 +115,11 @@ public class UserService {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<UserDTO> updateUserNIC(String id, User newUser){
+    public ResponseEntity<UserDTO> updateUserLicense(String id, User newUser){
         Optional<User> userOptional = userRepo.findById(id);
         if(userOptional.isPresent()){
             User user = userOptional.get();
-            user.setNIC(newUser.getNIC());
+            user.setDriversLicense(newUser.getDriversLicense());
             userRepo.save(user);
             return new ResponseEntity<>(modelToDTO.userToDTO(user),HttpStatus.OK);
         }

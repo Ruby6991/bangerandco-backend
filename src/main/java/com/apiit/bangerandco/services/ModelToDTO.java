@@ -52,7 +52,7 @@ public class ModelToDTO {
         userDTO.setEmail(user.getEmail());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
-        userDTO.setNIC(user.getNIC());
+//        userDTO.setNIC(user.getNIC());
         userDTO.setUserType(user.getUserType());
         return userDTO;
     }

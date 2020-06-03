@@ -1,6 +1,8 @@
 package com.apiit.bangerandco.controllers;
 
+import com.apiit.bangerandco.dtos.UserDTO;
 import com.apiit.bangerandco.models.Document;
+import com.apiit.bangerandco.models.User;
 import com.apiit.bangerandco.services.DocumentServiceImpl;
 import com.apiit.bangerandco.services.ResponseMetadata;
 import org.slf4j.Logger;
@@ -27,21 +29,38 @@ public class DocumentController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseMetadata handleFileUpload(@RequestParam(value="file") MultipartFile file, @RequestParam(value="userId") String userId) throws IOException {
-        return documentService.save(file, userId);
+    ResponseMetadata handleFileUpload(@RequestParam(value="file") MultipartFile file, @RequestParam(value="userId") String userId, @RequestParam(value="fileType") String fileType) throws IOException {
+        return documentService.save(file, userId, fileType);
     }
 
     @RequestMapping(value = "/updateFile", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseMetadata handleFileUpdate(@RequestParam(value="file") MultipartFile file, @RequestParam(value="userId") String userId) throws IOException {
-        return documentService.updateFile(file, userId);
+    ResponseMetadata handleFileUpdate(@RequestParam(value="file") MultipartFile file, @RequestParam(value="Id") long fileId) throws IOException {
+        return documentService.updateFile(file, fileId);
     }
 
-    @RequestMapping(value = "/getDocument/{id}", method = RequestMethod.GET)
-    public HttpEntity getDocument(@PathVariable String id) {
+    @PostMapping("/getDocument")
+    public ResponseEntity<Document> GetDocument(@RequestBody Document document){
+        return documentService.getDocument(document.getId());
+    }
+
+    @PostMapping("/getUserDocuments")
+    public ResponseEntity<List<Document>> GetUserDocuments(@RequestBody User user){
+        return documentService.getUserDocuments(user.getEmail());
+    }
+
+    @RequestMapping(value = "/getDocumentFile/{id}", method = RequestMethod.GET)
+    public HttpEntity getDocumentFile(@PathVariable String id) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.IMAGE_JPEG);
         return new ResponseEntity(documentService.getDocumentFile(id), httpHeaders, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/getDocumentByType/{id}", method = RequestMethod.POST)
+    public HttpEntity getDocumentByType(@PathVariable String id, @RequestBody Document document) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.IMAGE_JPEG);
+        return new ResponseEntity(documentService.getDocumentFileByType(id, document.getDocType()), httpHeaders, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -55,16 +74,16 @@ public class DocumentController {
         return documentService.downloadDoc(id);
     }
 
-    @GetMapping("/downloadFile/{fileId}")
-    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable long fileId) {
-        // Load file from database
-        Document dbFile = documentService.getDocument(fileId);
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; docName=\"" + dbFile.getDocName() + "\"")
-                .body(new ByteArrayResource(dbFile.getFile()));
-    }
+//    @GetMapping("/downloadFile/{fileId}")
+//    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable long fileId) {
+//        // Load file from database
+//        Document dbFile = documentService.getDocument(fileId);
+//
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.IMAGE_JPEG)
+//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; docName=\"" + dbFile.getDocName() + "\"")
+//                .body(new ByteArrayResource(dbFile.getFile()));
+//    }
 
 }
 

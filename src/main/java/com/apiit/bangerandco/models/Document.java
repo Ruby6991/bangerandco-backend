@@ -23,6 +23,9 @@ public class Document {
         private String docName;
 
         @Column
+        private String docType;
+
+        @Column
         @Lob
         private byte[] file;
 

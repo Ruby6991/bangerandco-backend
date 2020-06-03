@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface DocumentService {
 
-    ResponseMetadata save(MultipartFile multipartFile, String UserId) throws IOException;
+    ResponseMetadata save(MultipartFile multipartFile, String UserId, String fileType) throws IOException;
 
     byte[] getDocumentFile(String id);
 

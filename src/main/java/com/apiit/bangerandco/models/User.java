@@ -44,8 +44,8 @@ public class User implements Serializable {
     @Column(nullable = false)
     private int phoneNo;
 
-    @Column
-    private String NIC;
+//    @Column
+//    private String NIC;
 
     @Column(nullable = false)
     @Size(min = 6)

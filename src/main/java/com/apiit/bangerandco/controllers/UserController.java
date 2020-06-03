@@ -63,9 +63,9 @@ public class UserController {
         return userService.updatePassword(id, currentPsw ,newPsw);
     }
 
-    @PutMapping("/UpdateUserNIC/{id}")
-    public ResponseEntity<UserDTO> UpdateUserNIC(@PathVariable String id, @RequestBody User user){
-        return userService.updateUserNIC(id,user);
+    @PutMapping("/UpdateUserLicense/{id}")
+    public ResponseEntity<UserDTO> UpdateUserLicense(@PathVariable String id, @RequestBody User user){
+        return userService.updateUserLicense(id,user);
     }
 
     @PutMapping("/UpdateUserState/{id}")

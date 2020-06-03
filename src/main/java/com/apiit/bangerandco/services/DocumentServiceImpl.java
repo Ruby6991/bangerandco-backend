@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,12 +34,13 @@ public class DocumentServiceImpl implements DocumentService {
     private UserRepository userRepo;
 
     @Override
-    public ResponseMetadata save(MultipartFile file, String userId) throws IOException {
+    public ResponseMetadata save(MultipartFile file, String userId, String fileType) throws IOException {
 
         Document doc = new Document();
         ResponseMetadata metadata = new ResponseMetadata();
 
         doc.setDocName(file.getOriginalFilename());
+        doc.setDocType(fileType);
         doc.setFile(file.getBytes());
         Optional<User> user = userRepo.findById(userId);
         doc.setUser(user.get());
@@ -48,19 +50,16 @@ public class DocumentServiceImpl implements DocumentService {
         return metadata;
     }
 
-    public ResponseMetadata updateFile(MultipartFile file, String userId) throws IOException{
+    public ResponseMetadata updateFile(MultipartFile file, Long fileId) throws IOException{
         ResponseMetadata metadata = new ResponseMetadata();
-        Iterable<Document> docs = documentRepo.findAll();
-        for(Document document : docs){
-            if(document.getUser().getEmail().equals(userId)) {
-                Document updatedDoc = document;
-                updatedDoc.setDocName(file.getOriginalFilename());
-                updatedDoc.setFile(file.getBytes());
-                documentRepo.save(updatedDoc);
-                metadata.setMessage("success");
-                metadata.setStatus(200);
-            }
-        }
+            Optional<Document> doc = documentRepo.findById(fileId);
+            Document updatedDoc = doc.get();
+            updatedDoc.setDocName(file.getOriginalFilename());
+            updatedDoc.setFile(file.getBytes());
+            documentRepo.save(updatedDoc);
+            metadata.setMessage("success");
+            metadata.setStatus(200);
+
         return metadata;
     }
 
@@ -76,8 +75,38 @@ public class DocumentServiceImpl implements DocumentService {
         return documentRepo.findById(docID).get().getFile();
     }
 
-    public Document getDocument(long id) {
-        return documentRepo.findById(id).get();
+    public byte[] getDocumentFileByType(String id, String fileType) {
+        long docID=12345678910L;
+        Iterable<Document> docs = documentRepo.findAll();
+        for(Document doc : docs){
+            if(doc.getUser().getEmail().equals(id) && doc.getDocType().equals(fileType)){
+                docID=doc.getId();
+            }
+        }
+        return documentRepo.findById(docID).get().getFile();
+    }
+
+    public ResponseEntity<Document> getDocument(long id) {
+        Optional<Document> docOptional = documentRepo.findById(id);
+        if(docOptional.isPresent()){
+            Document document = docOptional.get();
+            return new ResponseEntity<>(document, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    public ResponseEntity<List<Document>> getUserDocuments(String userId) {
+        List<Document> userDocs = new ArrayList<>();
+        Iterable<Document> docs = documentRepo.findAll();
+        if(docs!=null){
+            for(Document doc : docs){
+                if(doc.getUser().getEmail().equals(userId)){
+                    userDocs.add(doc);
+                }
+            }
+            return new ResponseEntity<>(userDocs, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
     public ResponseEntity<byte[]>  downloadDoc(long id){

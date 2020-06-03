@@ -21,7 +21,7 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String address;
-    private String NIC;
+//    private String NIC;
     private String password;
     private Date dateOfBirth;
     private int phoneNo;
