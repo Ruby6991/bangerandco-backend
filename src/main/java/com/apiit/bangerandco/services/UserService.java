@@ -12,15 +12,16 @@ import com.apiit.bangerandco.repositories.BookingRepository;
 import com.apiit.bangerandco.repositories.UserRepository;
 import com.apiit.bangerandco.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -162,6 +163,47 @@ public class UserService {
             return new ResponseEntity<>(modelToDTO.userToDTO(user),HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+
+    public String checkUser(String license){
+        try {
+            final String url = "http://localhost:8081/CheckLicenseValidity/{licenseNo}";
+            Map<String,String> params = new HashMap<>();
+            params.put("licenseNo",license);
+
+            RestTemplate restTemplate = new RestTemplate();
+
+            String userValidity = restTemplate.getForObject(url,String.class,params);
+
+            if(userValidity.equals("Suspended") || userValidity.equals("Stolen") || userValidity.equals("Lost")){
+                alertDMW(userValidity);
+                String userEmail = getUserIDByLicense(license);
+                User blockUser = new User();
+                blockUser.setCustomerState(CustomerState.Blacklisted);
+                updateUserState(userEmail,blockUser);
+            }
+            return userValidity;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Exception" + e.getMessage();
+        }
+    }
+
+    public String getUserIDByLicense(String license){
+        Iterable<User> userList = userRepo.findAll();
+        for(User user : userList){
+            if(user.getDriversLicense()==license){
+                return user.getEmail();
+            }
+        }
+        return null;
+    }
+
+    public boolean alertDMW(String licenseState){
+//        if(successful){
+//            return true;
+//        }
+        return false;
     }
 
 }

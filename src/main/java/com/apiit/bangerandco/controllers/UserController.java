@@ -38,6 +38,11 @@ public class UserController {
         return userService.getUser(user.getEmail());
     }
 
+    @PostMapping("/CheckUser")
+    public String CheckUser(@RequestBody User user){
+        return userService.checkUser(user.getDriversLicense());
+    }
+
     @PostMapping("/GetUserBookings")
     public ResponseEntity<List<BookingDTO>> getUserBookings(@RequestBody User user){
         return userService.getUserBookingList(user.getEmail());
