@@ -1,6 +1,5 @@
 package com.apiit.bangerandco.controllers;
 
-import com.apiit.bangerandco.dtos.UserDTO;
 import com.apiit.bangerandco.models.Document;
 import com.apiit.bangerandco.models.User;
 import com.apiit.bangerandco.services.DocumentServiceImpl;
@@ -8,7 +7,6 @@ import com.apiit.bangerandco.services.ResponseMetadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

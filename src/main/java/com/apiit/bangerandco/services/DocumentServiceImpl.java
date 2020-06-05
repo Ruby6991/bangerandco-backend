@@ -1,24 +1,18 @@
 package com.apiit.bangerandco.services;
 
-import com.apiit.bangerandco.models.Booking;
 import com.apiit.bangerandco.models.Document;
 import com.apiit.bangerandco.models.User;
 import com.apiit.bangerandco.repositories.DocumentRepository;
 import com.apiit.bangerandco.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +75,8 @@ public class DocumentServiceImpl implements DocumentService {
         for(Document doc : docs){
             if(doc.getUser().getEmail().equals(id) && doc.getDocType().equals(fileType)){
                 docID=doc.getId();
-                return documentRepo.findById(docID).get().getFile();
+                byte [] arr = documentRepo.findById(docID).get().getFile();
+                return arr;
             }
         }
         return null;
