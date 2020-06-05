@@ -43,6 +43,11 @@ public class UserController {
         return userService.checkUser(user);
     }
 
+    @PostMapping("/CheckUserFraud")
+    public boolean CheckUserFraud(@RequestBody User user){
+        return userService.checkUserFraud(user.getDriversLicense(),user.getEmail());
+    }
+
     @PostMapping("/GetUserBookings")
     public ResponseEntity<List<BookingDTO>> getUserBookings(@RequestBody User user){
         return userService.getUserBookingList(user.getEmail());

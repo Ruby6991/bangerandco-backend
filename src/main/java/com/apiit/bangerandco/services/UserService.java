@@ -5,14 +5,8 @@ import com.apiit.bangerandco.dtos.UserDTO;
 import com.apiit.bangerandco.enums.BookingState;
 import com.apiit.bangerandco.enums.CustomerState;
 import com.apiit.bangerandco.enums.UserType;
-import com.apiit.bangerandco.models.Booking;
-import com.apiit.bangerandco.models.Document;
-import com.apiit.bangerandco.models.User;
-import com.apiit.bangerandco.models.Vehicle;
-import com.apiit.bangerandco.repositories.BookingRepository;
-import com.apiit.bangerandco.repositories.DocumentRepository;
-import com.apiit.bangerandco.repositories.UserRepository;
-import com.apiit.bangerandco.repositories.VehicleRepository;
+import com.apiit.bangerandco.models.*;
+import com.apiit.bangerandco.repositories.*;
 import com.sun.istack.ByteArrayDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,6 +48,9 @@ public class UserService {
 
     @Autowired
     DocumentServiceImpl documentService;
+
+    @Autowired
+    FraudClaimsViewRepository fraudClaimsViewRepo;
 
     @Autowired
     private PasswordEncoder bcryptEncoder;
@@ -263,6 +260,19 @@ public class UserService {
         if(successful){
             return true;
         }
+        return false;
+    }
+
+    public boolean checkUserFraud(String license, String userEmail){
+         Iterable<FraudClaimsView> fraudClaimsViewList = fraudClaimsViewRepo.findAll();
+         for(FraudClaimsView fraud:fraudClaimsViewList){
+             if(fraud.getFraudLicenseView().equals(license)){
+                 User blockUser = new User();
+                 blockUser.setCustomerState(CustomerState.Blacklisted);
+                 updateUserState(userEmail,blockUser);
+                return true;
+             }
+         }
         return false;
     }
 
