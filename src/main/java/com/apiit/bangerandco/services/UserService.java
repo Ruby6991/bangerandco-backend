@@ -12,11 +12,8 @@ import com.apiit.bangerandco.repositories.BookingRepository;
 import com.apiit.bangerandco.repositories.UserRepository;
 import com.apiit.bangerandco.repositories.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -34,6 +31,9 @@ public class UserService {
 
     @Autowired
     VehicleRepository vehicleRepo;
+
+    @Autowired
+    EmailService emailService;
 
     @Autowired
     private PasswordEncoder bcryptEncoder;
@@ -165,7 +165,9 @@ public class UserService {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
-    public String checkUser(String license){
+    public String checkUser(User user){
+        String license = user.getDriversLicense();
+        String userEmail = user.getEmail();
         try {
             final String url = "http://localhost:8081/CheckLicenseValidity/{licenseNo}";
             Map<String,String> params = new HashMap<>();
@@ -177,7 +179,6 @@ public class UserService {
 
             if(userValidity.equals("Suspended") || userValidity.equals("Stolen") || userValidity.equals("Lost")){
                 alertDMW(userValidity);
-                String userEmail = getUserIDByLicense(license);
                 User blockUser = new User();
                 blockUser.setCustomerState(CustomerState.Blacklisted);
                 updateUserState(userEmail,blockUser);
@@ -189,17 +190,13 @@ public class UserService {
         }
     }
 
-    public String getUserIDByLicense(String license){
-        Iterable<User> userList = userRepo.findAll();
-        for(User user : userList){
-            if(user.getDriversLicense()==license){
-                return user.getEmail();
-            }
-        }
-        return null;
-    }
-
     public boolean alertDMW(String licenseState){
+        emailService.sendPreConfiguredMail("Ho ho ho");
+
+//        registration number of Banger with the DMV, and the date and time of the offence.
+//        In addition, Banger must take a photograph of the person presenting the license to
+//        support any subsequent investigation; the image should be supplied with the communication.
+
 //        if(successful){
 //            return true;
 //        }

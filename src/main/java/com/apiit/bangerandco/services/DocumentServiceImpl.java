@@ -81,9 +81,10 @@ public class DocumentServiceImpl implements DocumentService {
         for(Document doc : docs){
             if(doc.getUser().getEmail().equals(id) && doc.getDocType().equals(fileType)){
                 docID=doc.getId();
+                return documentRepo.findById(docID).get().getFile();
             }
         }
-        return documentRepo.findById(docID).get().getFile();
+        return null;
     }
 
     public ResponseEntity<Document> getDocument(long id) {

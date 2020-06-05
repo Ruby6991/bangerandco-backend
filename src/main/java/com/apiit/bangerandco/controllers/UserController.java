@@ -40,7 +40,7 @@ public class UserController {
 
     @PostMapping("/CheckUser")
     public String CheckUser(@RequestBody User user){
-        return userService.checkUser(user.getDriversLicense());
+        return userService.checkUser(user);
     }
 
     @PostMapping("/GetUserBookings")
