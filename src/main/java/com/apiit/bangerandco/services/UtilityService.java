@@ -84,4 +84,13 @@ public class UtilityService {
         return new ResponseEntity<>(utilityDTOList, HttpStatus.OK);
     }
 
+    public ResponseEntity<List<UtilityDTO>> getAllUtilities() {
+        List<UtilityDTO> utilityDTOList = new ArrayList<>();
+        Iterable<Utility> utilityList = utilityRepo.findAll();
+        for(Utility utility : utilityList){
+                utilityDTOList.add(modelToDTO.utilityToDTO(utility));
+        }
+        return new ResponseEntity<>(utilityDTOList, HttpStatus.OK);
+    }
+
 }

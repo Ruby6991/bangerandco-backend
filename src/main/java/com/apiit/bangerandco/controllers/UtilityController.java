@@ -37,6 +37,11 @@ public class UtilityController {
         return utilityService.getUtilityList();
     }
 
+    @PostMapping("/GetAllUtilities")
+    public ResponseEntity<List<UtilityDTO>> getAllUtilities(){
+        return utilityService.getAllUtilities();
+    }
+
     @DeleteMapping("/DeleteUtility/{id}")
     public ResponseEntity<Boolean> DeleteUtility(@PathVariable int id){
         return utilityService.deleteUtility(id);
