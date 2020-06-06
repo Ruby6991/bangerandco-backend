@@ -19,7 +19,7 @@ public class WebScraperService {
         List<CompetitorVehicle> competitorInfo = new ArrayList<>();
         try{
             // Here we create a document object and use JSoup to fetch the website
-            Document doc = Jsoup.connect("https://www.expressrentacar.co.uk/car-finder/").get();
+            Document doc = Jsoup.connect("https://www.expressrentacar.co.uk/car-finder/").referrer("http://www.google.com").get();
 
             // Get the list of vehicles
             Elements vehicles = doc.getElementsByClass("container_cars");
