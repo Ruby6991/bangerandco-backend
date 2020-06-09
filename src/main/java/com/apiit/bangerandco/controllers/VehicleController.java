@@ -53,7 +53,7 @@ public class VehicleController {
     }
 
     @PutMapping("/UpdateVehicle/{id}")
-    public ResponseEntity<Vehicle> UpdateVehicle(@PathVariable int id, @RequestBody Vehicle vehicle){
+    public ResponseEntity<VehicleDTO> UpdateVehicle(@PathVariable int id, @RequestBody Vehicle vehicle){
         return vehicleService.updateVehicle(id,vehicle);
     }
 

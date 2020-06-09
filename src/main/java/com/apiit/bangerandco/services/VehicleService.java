@@ -75,7 +75,7 @@ public class VehicleService {
         return new ResponseEntity<>(false, HttpStatus.OK);
     }
 
-    public ResponseEntity<Vehicle> updateVehicle(int id, Vehicle newVehicle){
+    public ResponseEntity<VehicleDTO> updateVehicle(int id, Vehicle newVehicle){
         Optional<Vehicle> vehicleOptional = vehicleRepo.findById(id);
         if(vehicleOptional.isPresent()){
             Vehicle vehicle = vehicleOptional.get();
@@ -85,7 +85,7 @@ public class VehicleService {
             vehicle.setRates(newVehicle.getRates());
             vehicle.setServiceDate(newVehicle.getServiceDate());
             vehicleRepo.save(vehicle);
-            return new ResponseEntity<>(vehicle,HttpStatus.OK);
+            return new ResponseEntity<>(modelToDTO.vehicleToDTO(vehicle),HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }

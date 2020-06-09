@@ -119,7 +119,7 @@ public class BookingService {
             if(utilities!=null) {
                 for (Utility utility : utilities) {
                     Optional<Utility> utilityOptional = utilityRepo.findById(utility.getId());
-                    if (vehicleOptional.isPresent()) {
+                    if (utilityOptional.isPresent()) {
                         Utility util = utilityOptional.get();
                         int newQuantity = util.getQuantity() + 1;
                         util.setQuantity(newQuantity);
@@ -155,6 +155,20 @@ public class BookingService {
         if(bookingOptional.isPresent()){
             Booking booking = bookingOptional.get();
             booking.setUtilities(newBooking.getUtilities());
+
+                for (Utility utility : newBooking.getUtilities()) {
+                    Optional<Utility> utilityOptional = utilityRepo.findById(utility.getId());
+                    if (utilityOptional.isPresent()) {
+                        Utility util = utilityOptional.get();
+                        int newQuantity = util.getQuantity() - 1;
+                        util.setQuantity(newQuantity);
+                        if(newQuantity==0) {
+                            util.setUtilityAvailability(false);
+                        }
+                        utilityRepo.save(util);
+                    }
+                }
+
             booking.setTotalAmount(newBooking.getTotalAmount());
             bookingRepo.save(booking);
             return new ResponseEntity<>(modelToDTO.bookingToDTO(booking),HttpStatus.OK);
