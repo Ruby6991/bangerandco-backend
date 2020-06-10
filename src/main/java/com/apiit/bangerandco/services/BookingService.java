@@ -35,22 +35,22 @@ public class BookingService {
     ModelToDTO modelToDTO;
 
     public ResponseEntity<Boolean> createBooking(Booking newBooking){
-
         List<LocalDate> totalDates = new ArrayList<>();
         Optional<Vehicle> vehicleOptional = vehicleRepo.findById(newBooking.getVehicle().getId());
         if(vehicleOptional.isPresent()){
             Vehicle vehicle = vehicleOptional.get();
-
             Iterable<Booking> bookings = bookingRepo.findAll();
+
             for(Booking booking : bookings){
+
                 if(booking.getBookingState()==BookingState.Pending || booking.getBookingState()==BookingState.PickedUp) {
                     Date startDate = booking.getPickupDateTime();
                     Date endDate = booking.getDropDateTime();
-
                     String s = startDate.toString().split(" ")[0];
                     String e = endDate.toString().split(" ")[0];
                     LocalDate start = LocalDate.parse(s);
                     LocalDate end = LocalDate.parse(e);
+
                     while (!start.isAfter(end)) {
                         if (!totalDates.contains(start)) {
                             totalDates.add(start);

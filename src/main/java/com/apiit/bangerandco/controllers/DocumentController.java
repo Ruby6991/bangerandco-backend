@@ -27,13 +27,16 @@ public class DocumentController {
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseMetadata handleFileUpload(@RequestParam(value="file") MultipartFile file, @RequestParam(value="userId") String userId, @RequestParam(value="fileType") String fileType) throws IOException {
+    ResponseMetadata handleFileUpload(@RequestParam(value="file") MultipartFile file,
+                                      @RequestParam(value="userId") String userId,
+                                      @RequestParam(value="fileType") String fileType) throws IOException {
         return documentService.save(file, userId, fileType);
     }
 
     @RequestMapping(value = "/updateFile", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseMetadata handleFileUpdate(@RequestParam(value="file") MultipartFile file, @RequestParam(value="Id") long fileId) throws IOException {
+    ResponseMetadata handleFileUpdate(@RequestParam(value="file") MultipartFile file,
+                                      @RequestParam(value="Id") long fileId) throws IOException {
         return documentService.updateFile(file, fileId);
     }
 
@@ -71,17 +74,6 @@ public class DocumentController {
     public ResponseEntity<byte[]> getRandomFile(@PathVariable long id) {
         return documentService.downloadDoc(id);
     }
-
-//    @GetMapping("/downloadFile/{fileId}")
-//    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable long fileId) {
-//        // Load file from database
-//        Document dbFile = documentService.getDocument(fileId);
-//
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.IMAGE_JPEG)
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; docName=\"" + dbFile.getDocName() + "\"")
-//                .body(new ByteArrayResource(dbFile.getFile()));
-//    }
 
 }
 

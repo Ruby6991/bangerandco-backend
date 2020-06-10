@@ -62,9 +62,9 @@ public class EmailService
             return true;
         }
         catch (MailException ex) {
-            // simply log it and go on...
             System.err.println(ex.getMessage());
         }
         return false;
     }
 }
+

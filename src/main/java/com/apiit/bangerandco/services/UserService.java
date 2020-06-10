@@ -203,13 +203,15 @@ public class UserService {
 
     public boolean alertDMW(String licenseState, User user){
 
-        String emailTo = "rabiyaf1@gmail.com";
+        String emailTo = "DMV@gmail.com";
         String subject = "Illegal Use of A "+licenseState+" License";
         String body =  "Hello Sir/Madam,\n" +
                 "\n" +
-                "Please find below details of an offence regarding the misuse of a "+licenseState+" license. Further, the license in question has been attached to the email for your convenience."+"\n" +
+                "Please find below details of an offence regarding the misuse of a "+licenseState+" license. Further, " +
+                "the license in question has been attached to the email for your convenience."+"\n" +
                 "\n" +
-                "Banger & Co DMV Registration Number: 72534KJ6G8"+ "\n"+"Date and Time of the Offence: "+new Date().toString()+"\n"+
+                "Banger & Co DMV Registration Number: 72534KJ6G8"+ "\n"+
+                "Date and Time of the Offence: "+new Date().toString()+"\n"+
                 "\n"+
                 "If you have any questions regarding the details of this email, please contact us at adminMike@banger.com.\n" +
                 "\n" +
@@ -230,9 +232,7 @@ public class UserService {
         }
 
         byte[] byteArr = userDoc.getFile();
-
         String encoded = Base64.getEncoder().withoutPadding().encodeToString(byteArr);
-
         String base64 = encoded;
         byte[] decoder = Base64.getDecoder().decode(base64);
 
